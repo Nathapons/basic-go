@@ -2,9 +2,15 @@ package main
 
 import "fmt"
 
+type contractInfor struct {
+	email   string
+	zipCode string
+}
+
 type person struct {
 	firstName string
 	lastName  string
+	contract  contractInfor
 }
 
 func (p person) getFullName() string {
@@ -12,8 +18,13 @@ func (p person) getFullName() string {
 }
 
 func main() {
-	var myPerson person
-	myPerson.firstName = "Alex"
-	myPerson.lastName = "Anderson"
-	fmt.Printf("%+v", myPerson)
+	jim := person{
+		firstName: "Jim",
+		lastName:  "Party",
+		contract: contractInfor{
+			email:   "jim@gmail.com",
+			zipCode: "94000",
+		},
+	}
+	fmt.Printf("%+v", jim)
 }
