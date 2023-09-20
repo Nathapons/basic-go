@@ -12,6 +12,8 @@ func (p person) getFullName() string {
 }
 
 func main() {
-	var myPerson person = person{firstName: "John", lastName: "Canady"}
-	fmt.Println(myPerson.getFullName())
+	var myPerson person
+	myPerson.firstName = "Alex"
+	myPerson.lastName = "Anderson"
+	fmt.Printf("%+v", myPerson)
 }
