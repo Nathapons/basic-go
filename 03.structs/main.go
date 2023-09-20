@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-type contractInfor struct {
+type contractInfo struct {
 	email   string
 	zipCode string
 }
@@ -10,21 +10,26 @@ type contractInfor struct {
 type person struct {
 	firstName string
 	lastName  string
-	contract  contractInfor
+	contractInfo
 }
 
-func (p person) getFullName() string {
-	return p.firstName + " " + p.lastName
+func (p person) print() {
+	fmt.Printf("%+v", p)
+}
+
+func (p person) updateName(newFirstName string) {
+	p.firstName = newFirstName
 }
 
 func main() {
 	jim := person{
 		firstName: "Jim",
 		lastName:  "Party",
-		contract: contractInfor{
+		contractInfo: contractInfo{
 			email:   "jim@gmail.com",
 			zipCode: "94000",
 		},
 	}
-	fmt.Printf("%+v", jim)
+	jim.updateName("Jimmy")
+	jim.print()
 }
