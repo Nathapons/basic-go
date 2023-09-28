@@ -10,6 +10,7 @@ import (
 
 func main() {
 	r := gin.Default()
+	count := 0
 	runningDir, _ := os.Getwd()
 	errorfile, _ := os.OpenFile(fmt.Sprintf("%s/gin_error.log", runningDir), os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0600)
 	accesslogfile, _ := os.OpenFile(fmt.Sprintf("%s/gin_access.log", runningDir), os.O_CREATE|os.O_WRONLY, 0600)
@@ -24,6 +25,8 @@ func main() {
 	})
 
 	r.GET("/profile", func(c *gin.Context) {
+		count = count + 1
+		accesslogfile.WriteString(fmt.Sprintf("Count %d \n", count))
 		c.Data(http.StatusOK, "text/html: charset=utf-8", []byte("profile"))
 	})
 
