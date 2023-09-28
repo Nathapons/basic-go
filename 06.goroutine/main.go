@@ -2,28 +2,21 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 )
 
-func main() {
-	links := []string {
-		"http://google.com",
-		"http://facebook.com",
-		"http://stackoverflow.com",
-		"http://golang.org",
-		"http://amazon.com",
+func routine1(ch chan int, countTo int) {
+	for i := 0; i < countTo; i++ {
+		ch <- i
 	}
 
-	for _, link := range links {
-		checkLink(link)
-	}
+	close(ch)
 }
 
-func checkLink(link string) {
-	_, err := http.Get(link)
-	if err != nil {
-		fmt.Println(link, "might be down!")
+func main() {
+	ch := make(chan int, 1)
+	go routine1(ch, 10)
+	for value := range ch {
+		fmt.Println(value)
 	}
-
-	fmt.Println(link, "is up!")
+	fmt.Println("No more data")
 }
