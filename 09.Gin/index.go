@@ -11,6 +11,24 @@ func handleBookRequest(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"result": "ok", "from": from, "to": to, "by": by})
 }
 
+type LoginForm struct {
+	Username string `form:"username" binding:"required"`
+	Password string `form:"password" binding:"required"`
+}
+
+func loginRequest(c *gin.Context) {
+	var form LoginForm
+	if c.ShouldBind(&form) == nil {
+		if form.Username == "admin" && form.Password == "1234" {
+			c.JSON(http.StatusOK, gin.H{"status": "you are logged in"})
+		} else {
+			c.JSON(http.StatusUnauthorized, gin.H{"status": "Can not authorized"})
+		}
+	} else {
+		c.JSON(http.StatusUnauthorized, gin.H{"status": "unable to bind"})
+	}
+}
+
 func main() {
 	r := gin.Default()
 
@@ -31,6 +49,8 @@ func main() {
 
 	// Parameter in URL
 	r.GET("book/:from/:to/:by", handleBookRequest)
+
+	r.POST("/login", loginRequest)
 
 	r.Run()
 }
