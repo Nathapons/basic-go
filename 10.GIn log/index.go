@@ -13,7 +13,7 @@ func main() {
 	count := 0
 	runningDir, _ := os.Getwd()
 	errorfile, _ := os.OpenFile(fmt.Sprintf("%s/gin_error.log", runningDir), os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0600)
-	accesslogfile, _ := os.OpenFile(fmt.Sprintf("%s/gin_access.log", runningDir), os.O_CREATE|os.O_WRONLY, 0600)
+	accesslogfile, _ := os.OpenFile(fmt.Sprintf("%s/gin_access.log", runningDir), os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0600)
 
 	gin.DefaultErrorWriter = errorfile
 	gin.DefaultWriter = accesslogfile
