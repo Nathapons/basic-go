@@ -6,6 +6,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func handleBookRequest(c *gin.Context) {
+	from, to, by := c.Param("from"), c.Param("to"), c.Param("by")
+	c.JSON(http.StatusOK, gin.H{"result": "ok", "from": from, "to": to, "by": by})
+}
+
 func main() {
 	r := gin.Default()
 
@@ -23,6 +28,9 @@ func main() {
 		username, password := c.Query("username"), c.Query("password")
 		c.JSON(http.StatusOK, gin.H{"result": "ok", "username": username, "password": password})
 	})
+
+	// Parameter in URL
+	r.GET("book/:from/:to/:by", handleBookRequest)
 
 	r.Run()
 }
