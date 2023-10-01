@@ -14,4 +14,9 @@ func SetUp(router *gin.Engine) {
 		stockAPI.GET("list", ListProduct)
 		stockAPI.GET("create", CreateProduct)
 	}
+
+	fileAPI := router.Group("/file")
+	{
+		fileAPI.GET("download", DownloadFile)
+	}
 }
