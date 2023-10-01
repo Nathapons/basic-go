@@ -4,30 +4,15 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"demo14/api"
 )
-
-func login(c *gin.Context) {
-	c.String(http.StatusOK, "login")
-}
-
-func register(c *gin.Context) {
-	c.String(http.StatusOK, "register")
-}
-
-func listProduct(c *gin.Context) {
-	c.String(http.StatusOK, "listProduct")
-}
-
-func createProduct(c *gin.Context) {
-	c.String(http.StatusOK, "createProduct")
-}
 
 func main() {
 	router := gin.Default()
 	authenAPI := router.Group("/authen")
 	{
-		authenAPI.GET("/login", login)
-		authenAPI.GET("/register", register)
+		authenAPI.GET("/login", api.Login)
+		authenAPI.GET("/register", api.Register)
 		authenAPI.GET("/profile", func(c *gin.Context) {
 			c.String(http.StatusOK, "profile")
 		})
@@ -35,8 +20,8 @@ func main() {
 
 	stockAPI := router.Group("/stock")
 	{
-		stockAPI.GET("list", listProduct)
-		stockAPI.GET("create", createProduct)
+		stockAPI.GET("list", api.ListProduct)
+		stockAPI.GET("create", api.CreateProduct)
 	}
 	router.Run()
 }

@@ -1,4 +1,4 @@
-package authen
+package api
 
 import (
 	"net/http"
@@ -7,7 +7,13 @@ import (
 )
 
 func Login(c *gin.Context) {
-	c.String(http.StatusOK, "login")
+	var msg struct {
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}
+	msg.Username = "admin"
+	msg.Password = "1234"
+	c.JSON(http.StatusOK, msg)
 }
 
 func Register(c *gin.Context) {
