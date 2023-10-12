@@ -4,12 +4,14 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"gorm.io/driver/mysql"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
 func main() {
-	var db *gorm.DB = connectionDatabase()
+	// var db *gorm.DB = connectionDatabase()
+	var db *gorm.DB = connectionMySql()
 	todoList := todov1{Username: "admin", Title: "Angular framework", Message: "Study about ngIf"}
 
 	// Insert data
@@ -59,6 +61,16 @@ func delete(_db *gorm.DB, todo todov1) {
 
 func connectionDatabase() *gorm.DB {
 	database, _ := gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{})
+	database.AutoMigrate(&todov1{})
+	return database
+}
+
+func connectionMySql() *gorm.DB {
+	dsn := "user:12345678@tcp(localhost:3306)/db?charset=utf8mb4&parseTime=True&loc=Local"
+	database, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	if err != nil {
+		panic(err)
+	}
 	database.AutoMigrate(&todov1{})
 	return database
 }
