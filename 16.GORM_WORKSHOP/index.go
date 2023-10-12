@@ -5,13 +5,15 @@ import (
 	"fmt"
 
 	"gorm.io/driver/mysql"
+	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
 func main() {
 	// var db *gorm.DB = connectionDatabase()
-	var db *gorm.DB = connectionMySql()
+	// var db *gorm.DB = connectionMySql()
+	var db *gorm.DB = connectPostgres()
 	todoList := todov1{Username: "admin", Title: "Angular framework", Message: "Study about ngIf"}
 
 	// Insert data
@@ -68,6 +70,16 @@ func connectionDatabase() *gorm.DB {
 func connectionMySql() *gorm.DB {
 	dsn := "user:12345678@tcp(localhost:3306)/db?charset=utf8mb4&parseTime=True&loc=Local"
 	database, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	if err != nil {
+		panic(err)
+	}
+	database.AutoMigrate(&todov1{})
+	return database
+}
+
+func connectPostgres() *gorm.DB {
+	dsn := "host=localhost user=jb password=12345678 dbname=golang port=5432 sslmode=disable TimeZone=Asia/Bangkok"
+	database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
