@@ -29,7 +29,7 @@ func main() {
 
 	fmt.Println("-------------------------- Delete --------------------------")
 	var deleteTmp todov1
-	db.Find(&deleteTmp, "message like ?", "%For%")
+	db.Find(&deleteTmp, "message like ?", "%For")
 	delete(db, deleteTmp)
 	query(db)
 }
