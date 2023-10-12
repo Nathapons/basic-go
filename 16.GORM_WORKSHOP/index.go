@@ -13,9 +13,24 @@ func main() {
 	todoList := todov1{Username: "admin", Title: "Angular framework", Message: "Study about ngIf"}
 
 	// Insert data
+	fmt.Println("-------------------------- Insert --------------------------")
 	db.Create(&todoList)
 
 	// Query
+	fmt.Println("-------------------------- Query --------------------------")
+	query(db)
+
+	// Update
+	fmt.Println("-------------------------- Insert --------------------------")
+	var todoUpdate todov1
+	db.First(&todoUpdate, 1)
+	update(db, todoUpdate)
+	query(db)
+
+	fmt.Println("-------------------------- Delete --------------------------")
+	var deleteTmp todov1
+	db.Find(&deleteTmp, "message like ?", "%For%")
+	delete(db, deleteTmp)
 	query(db)
 }
 
@@ -28,6 +43,18 @@ func query(_db *gorm.DB) {
 func printJson(data []todov1) {
 	jsonDatas, _ := json.MarshalIndent(data, " ", "")
 	fmt.Println(string(jsonDatas))
+}
+
+func update(_db *gorm.DB, todo todov1) {
+	_db.Model(todo).Update("Message", "Study about ngFor")
+}
+
+func delete(_db *gorm.DB, todo todov1) {
+	// Soft delete
+	_db.Delete(&todo)
+
+	// Hard delete
+	// _db.Unscoped().Delete(&todo)
 }
 
 func connectionDatabase() *gorm.DB {
